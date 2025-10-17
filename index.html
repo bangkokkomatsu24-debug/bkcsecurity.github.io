@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bangkok Komatsu - Cybersecurity E-Learning</title>
+    <title>KOMATSU TH - Cybersecurity E-Learning</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -129,7 +129,7 @@
     <div class="container mx-auto max-w-4xl w-full">
         
         <header id="navbar" class="hidden bg-[var(--komatsu-blue)] text-white px-4 pt-4 pb-6 rounded-t-xl shadow-lg relative z-10">
-            <h1 class="text-xl font-bold text-center sm:text-left">Bangkok Komatsu — Cybersecurity E‑Learning</h1>
+            <h1 class="text-xl font-bold text-center sm:text-left">Cybersecurity E‑Learning</h1>
             <!-- New Progress Bar Location -->
             <div id="global-progress-container" class="absolute bottom-0 left-0 w-full h-1.5">
                 <div class="w-full h-full bg-white/20"> <!-- Track with some transparency -->
@@ -144,8 +144,8 @@
             <div id="page-0" class="page text-center">
                 <div class="card">
                      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyBzPqeEpBv32g7FuA4vBEaTR1F-alfIJCCQ&s" alt="Komatsu logo" style="display: block; margin: 0 auto;">
-                    <h1 id="main-title" class="font-bold mt-4 mb-2">Cybersecurity E-Learning for Bangkok Komatsu & KPAC</h1>
-                    <p id="main-subtitle" class="text-gray-600 mb-8">หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Bangkok Komatsu & KPAC</p>
+                    <h1 id="main-title" class="font-bold mt-4 mb-2">Cybersecurity E-Learning for Komatsu Thailand Group</h1>
+                    <p id="main-subtitle" class="text-gray-600 mb-8">หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Komatsu Thailand Group</p>
                     
                     <div id="language-selection">
                         <p class="font-semibold mb-4">กรุณาเลือกภาษา / Please select a language</p>
@@ -156,9 +156,22 @@
                     </div>
 
                     <div id="login-section" class="max-w-sm mx-auto mt-8 hidden">
-                        <label for="employeeId" id="employeeIdLabel" class="block text-left font-medium text-gray-700 mb-2">กรุณากรอกรหัสพนักงานเพื่อเริ่ม</label>
-                        <input type="text" id="employeeId" class="w-full text-lg px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 12345">
-                        <p id="employeeIdError" class="text-red-600 text-sm mt-2 hidden">กรุณากรอกรหัสพนักงาน</p>
+                        <div>
+                            <label for="employeeId" id="employeeIdLabel" class="block text-left font-medium text-gray-700 mb-2">กรุณากรอกรหัสพนักงาน</label>
+                            <input type="text" id="employeeId" class="w-full text-lg px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 12345">
+                            <p id="employeeIdError" class="text-red-600 text-sm mt-2 hidden">กรุณากรอกรหัสพนักงาน</p>
+                        </div>
+                        <div class="mt-4">
+                            <label for="companySelect" id="companySelectLabel" class="block text-left font-medium text-gray-700 mb-2">บริษัท</label>
+                            <select id="companySelect" class="w-full text-lg px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+                                <option value="" disabled selected id="companySelectPlaceholder">-- เลือกบริษัท --</option>
+                                <option value="Bangkok Komatsu">Bangkok Komatsu</option>
+                                <option value="Komatsu Part Asia">Komatsu Part Asia</option>
+                                <option value="Komatsu Academy Asia">Komatsu Academy Asia</option>
+                                <option value="Bangkok Komatsu Sales">Bangkok Komatsu Sales</option>
+                            </select>
+                            <p id="companySelectError" class="text-red-600 text-sm mt-2 hidden">กรุณาเลือกบริษัท</p>
+                        </div>
                         <button id="startBtn" class="w-full mt-6 btn btn-primary">เริ่มเรียนรู้</button>
                     </div>
                 </div>
@@ -179,7 +192,8 @@
         </main>
 
         <footer id="footer" class="hidden text-center p-4 text-gray-500 text-sm mt-2">
-            <p>© Bangkok Komatsu (Thailand) — Internal Training Use Only</p>
+            <p>Developed by ICT Section - Bangkok Komatsu Co., Ltd. © — For Internal Training Use Only</p>
+            <p>Version 1</p>
         </footer>
     </div>
 
@@ -190,12 +204,14 @@
 
 
 <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWahWz-7ptHYhdkp0RN6Zn_zoMzAs8BfCZqKzbiH5cj6MUZiOwUjjq_dHV8Gc8HBkCAw/exec'; 
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSiuCy70D0DqvR6oKixb3PNt0p6rdUtEYuuvY0RuqrmVQtyepzRAR3cTjPvWnH0FgpAg/exec'; 
+    
 
     let currentPage = 0;
     const totalContentPages = 8;
     let currentLang = 'th';
     let employeeId = '';
+    let company = '';
     let testedPassword = '';
     let toastTimeout;
 
@@ -211,8 +227,11 @@
         th: {
             mainTitle: "Cybersecurity E-Learning",
             mainSubtitle: "หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Bangkok Komatsu",
-            employeeIdLabel: "กรุณากรอกรหัสพนักงานเพื่อเริ่ม",
+            employeeIdLabel: "กรุณากรอกรหัสพนักงาน",
             employeeIdError: "กรุณากรอกรหัสพนักงาน",
+            companySelectLabel: "บริษัท",
+            companySelectError: "กรุณาเลือกบริษัท",
+            companySelectPlaceholder: "-- เลือกบริษัท --",
             startBtn: "เริ่มเรียนรู้",
             backBtn: "ย้อนกลับ",
             nextBtn: "ถัดไป",
@@ -246,8 +265,11 @@
         en: {
             mainTitle: "Cybersecurity E-Learning",
             mainSubtitle: "Cybersecurity Training Course for Bangkok Komatsu Employees",
-            employeeIdLabel: "Please enter your Employee ID to begin",
+            employeeIdLabel: "Please enter your Employee ID",
             employeeIdError: "Please enter your Employee ID",
+            companySelectLabel: "Company",
+            companySelectError: "Please select your company",
+            companySelectPlaceholder: "-- Select Company --",
             startBtn: "Start Learning",
             backBtn: "Back",
             nextBtn: "Next",
@@ -748,28 +770,34 @@
         if (!statusEl) return;
         statusEl.textContent = uiText[currentLang].submitting;
 
-        if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' || SCRIPT_URL === '') {
+        if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
             statusEl.textContent = uiText[currentLang].submitConfigError;
             statusEl.style.color = '#dc2626';
             return;
         }
         
-        const formData = new FormData();
-        formData.append('data', JSON.stringify({ employeeId, score, answers }));
+        const payload = {
+            employeeId,
+            company,
+            score,
+            answers
+        };
 
+        // Use a more robust fetch method for Google Apps Script
         fetch(SCRIPT_URL, {
             method: 'POST',
-            body: formData
+            mode: 'no-cors', // Important for cross-origin requests to GAS
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
         })
         .then(res => {
-            // A successful POST to Apps Script might not return a parsable JSON
-            // if there are redirects. We will optimistically assume success.
-             if (res.ok || res.type === 'opaque') {
-                statusEl.textContent = uiText[currentLang].submitSuccess;
-                statusEl.style.color = '#16a34a';
-            } else {
-                 throw new Error(`Network response was not ok: ${res.statusText}`);
-            }
+            // Because of 'no-cors', we can't read the response.
+            // We optimistically assume the request was sent successfully.
+            statusEl.textContent = uiText[currentLang].submitSuccess;
+            statusEl.style.color = '#16a34a';
         })
         .catch(error => {
             statusEl.textContent = uiText[currentLang].submitError;
@@ -780,14 +808,33 @@
 
     startBtn.addEventListener('click', () => {
         const idInput = document.getElementById('employeeId');
-        const errorEl = document.getElementById('employeeIdError');
+        const companySelect = document.getElementById('companySelect');
+        const idErrorEl = document.getElementById('employeeIdError');
+        const companyErrorEl = document.getElementById('companySelectError');
+
+        let isValid = true;
+
         if (idInput.value.trim() === '') {
-            errorEl.classList.remove('hidden');
+            idErrorEl.classList.remove('hidden');
             idInput.classList.add('border-red-500');
+            isValid = false;
         } else {
-            employeeId = idInput.value.trim();
-            errorEl.classList.add('hidden');
+            idErrorEl.classList.add('hidden');
             idInput.classList.remove('border-red-500');
+        }
+
+        if (companySelect.value === '') {
+            companyErrorEl.classList.remove('hidden');
+            companySelect.classList.add('border-red-500');
+            isValid = false;
+        } else {
+            companyErrorEl.classList.add('hidden');
+            companySelect.classList.remove('border-red-500');
+        }
+
+        if (isValid) {
+            employeeId = idInput.value.trim();
+            company = companySelect.value;
             
             navbar.classList.remove('hidden');
             footer.classList.remove('hidden');
