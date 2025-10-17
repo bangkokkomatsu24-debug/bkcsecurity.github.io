@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bangkok Komatsu - Cybersecurity E-Learning</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --komatsu-blue: #003366;
+            --komatsu-accent: #f5f5f5;
+        }
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--komatsu-accent);
+            font-size: 1.1rem;
+        }
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card {
+            background-color: white;
+            padding: 2.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+        #page-0 .card {
+             border-radius: 1.5rem;
+        }
+        .content-card {
+            border-bottom-left-radius: 1.5rem;
+            border-bottom-right-radius: 1.5rem;
+        }
+        h1 { font-size: 2.25rem; line-height: 2.5rem; }
+        h2 { font-size: 1.875rem; line-height: 2.25rem; }
+        p, li { font-size: 1.125rem; line-height: 1.75rem; }
+
+        .btn {
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.3s, transform 0.2s, opacity 0.3s;
+            font-size: 1.125rem;
+            cursor: pointer;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-primary {
+            background-color: var(--komatsu-blue);
+            color: white;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background-color: #002244;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background-color: #d1d5db;
+        }
+        .btn-success {
+            background-color: #16a34a; /* Green */
+            color: white;
+        }
+        .btn-success:hover:not(:disabled) {
+            background-color: #15803d;
+            transform: translateY(-2px);
+        }
+
+        .quiz-option {
+            display: block;
+            padding: 1rem 1.25rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            font-size: 1.125rem;
+        }
+        .quiz-option:hover {
+            border-color: #9ca3af;
+        }
+        input[type="radio"]:checked + label {
+             border-color: var(--komatsu-blue);
+             background-color: #eff6ff;
+        }
+        .quiz-feedback { display: none; }
+        .quiz-block-wrong .quiz-feedback.wrong { display: block; }
+        .quiz-block-correct .quiz-feedback.correct { display: block; }
+
+        .good::before { content: '✔'; margin-right: 0.5rem; color: #16a34a; }
+        .bad::before { content: '✖'; margin-right: 0.5rem; color: #dc2626; }
+        .tip::before { content: '💡'; margin-right: 0.5rem; }
+
+        #strength-bar { transition: width 0.3s ease-in-out; }
+        
+        .criteria-item { color: #dc2626; transition: color 0.3s; }
+        .criteria-item .indicator::before { content: '✖'; margin-right: 0.5rem; }
+        .criteria-item.met { color: #16a34a; }
+        .criteria-item.met .indicator::before { content: '✔'; }
+
+        #toast {
+            transform: translate(-50%, 20px);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            z-index: 9999;
+        }
+        #toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div class="container mx-auto max-w-4xl w-full">
+        
+        <header id="navbar" class="hidden bg-[var(--komatsu-blue)] text-white px-4 pt-4 pb-6 rounded-t-xl shadow-lg relative z-10">
+            <h1 class="text-xl font-bold text-center sm:text-left">Bangkok Komatsu — Cybersecurity E‑Learning</h1>
+            <!-- New Progress Bar Location -->
+            <div id="global-progress-container" class="absolute bottom-0 left-0 w-full h-1.5">
+                <div class="w-full h-full bg-white/20"> <!-- Track with some transparency -->
+                    <div id="progress-bar" class="h-full bg-white" style="width: 0%; transition: width 0.5s ease-in-out;"></div>
+                </div>
+            </div>
+        </header>
+
+        <main id="elearning-container">
+
+            <!-- Page 0: Cover / Language Selection -->
+            <div id="page-0" class="page text-center">
+                <div class="card">
+                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyBzPqeEpBv32g7FuA4vBEaTR1F-alfIJCCQ&s" alt="Komatsu logo" style="display: block; margin: 0 auto;">
+                    <h1 id="main-title" class="font-bold mt-4 mb-2">Cybersecurity E-Learning for Bangkok Komatsu & KPAC</h1>
+                    <p id="main-subtitle" class="text-gray-600 mb-8">หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Bangkok Komatsu & KPAC</p>
+                    
+                    <div id="language-selection">
+                        <p class="font-semibold mb-4">กรุณาเลือกภาษา / Please select a language</p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button onclick="setLanguage('th')" class="btn btn-primary flex-1">ไทย</button>
+                            <button onclick="setLanguage('en')" class="btn btn-primary flex-1">English</button>
+                        </div>
+                    </div>
+
+                    <div id="login-section" class="max-w-sm mx-auto mt-8 hidden">
+                        <label for="employeeId" id="employeeIdLabel" class="block text-left font-medium text-gray-700 mb-2">กรุณากรอกรหัสพนักงานเพื่อเริ่ม</label>
+                        <input type="text" id="employeeId" class="w-full text-lg px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 12345">
+                        <p id="employeeIdError" class="text-red-600 text-sm mt-2 hidden">กรุณากรอกรหัสพนักงาน</p>
+                        <button id="startBtn" class="w-full mt-6 btn btn-primary">เริ่มเรียนรู้</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-1" class="page"><div class="card content-card"></div></div>
+            <div id="page-2" class="page"><div class="card content-card"></div></div>
+            <div id="page-3" class="page"><div class="card content-card"></div></div>
+            <div id="page-4" class="page"><div class="card content-card"></div></div>
+            <div id="page-5" class="page"><div class="card content-card"><h2 id="quiz-title" class="text-center mb-2 font-bold">แบบทดสอบความเข้าใจ</h2><p id="quiz-subtitle" class="text-center text-gray-600 mb-6">กรุณาตอบคำถามให้ถูกต้องทั้งหมดเพื่อไปต่อ</p><form id="quizForm"></form></div></div>
+            <div id="page-6" class="page"><div class="card content-card" id="password-test-card"></div></div>
+            <div id="page-7" class="page text-center"><div class="card content-card"></div></div>
+            
+            <div id="navigation" class="flex justify-between mt-8 hidden">
+                <button id="backBtn" class="btn btn-secondary">ย้อนกลับ</button>
+                <button id="nextBtn" class="btn btn-primary">ถัดไป</button>
+            </div>
+        </main>
+
+        <footer id="footer" class="hidden text-center p-4 text-gray-500 text-sm mt-2">
+            <p>© Bangkok Komatsu (Thailand) — Internal Training Use Only</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-10 left-1/2 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg pointer-events-none">
+        <p id="toast-message"></p>
+    </div>
+
+
+<script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWahWz-7ptHYhdkp0RN6Zn_zoMzAs8BfCZqKzbiH5cj6MUZiOwUjjq_dHV8Gc8HBkCAw/exec'; 
+
+    let currentPage = 0;
+    const totalContentPages = 8;
+    let currentLang = 'th';
+    let employeeId = '';
+    let testedPassword = '';
+    let toastTimeout;
+
+    const pages = document.querySelectorAll('.page');
+    const nextBtn = document.getElementById('nextBtn');
+    const backBtn = document.getElementById('backBtn');
+    const startBtn = document.getElementById('startBtn');
+    const navigation = document.getElementById('navigation');
+    const navbar = document.getElementById('navbar');
+    const footer = document.getElementById('footer');
+
+    const uiText = {
+        th: {
+            mainTitle: "Cybersecurity E-Learning",
+            mainSubtitle: "หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Bangkok Komatsu",
+            employeeIdLabel: "กรุณากรอกรหัสพนักงานเพื่อเริ่ม",
+            employeeIdError: "กรุณากรอกรหัสพนักงาน",
+            startBtn: "เริ่มเรียนรู้",
+            backBtn: "ย้อนกลับ",
+            nextBtn: "ถัดไป",
+            submitBtn: "ตรวจคำตอบ",
+            quizTitle: "แบบทดสอบความเข้าใจ",
+            quizSubtitle: "กรุณาตอบคำถามให้ถูกต้องทั้งหมดเพื่อไปต่อ",
+            finalTitle: "ขอบคุณสำหรับการเรียนรู้!",
+            finalSlogan: "ปกป้องทุกข้อมูล ด้วยมือของคุณ",
+            submitting: "กำลังบันทึกข้อมูล...",
+            submitSuccess: "บันทึกข้อมูลเรียบร้อยแล้ว",
+            submitError: "เกิดข้อผิดพลาดในการบันทึกข้อมูล",
+            submitConfigError: "การตั้งค่า Google Sheets ยังไม่สมบูรณ์ ไม่สามารถบันทึกข้อมูลได้",
+            toastIncomplete: "กรุณาตอบคำถามให้ครบทุกข้อ",
+            toastWrongAnswers: "คุณตอบผิดในข้อที่",
+            correctText: "ถูกต้อง!",
+            wrongText: "คำตอบยังไม่ถูก ลองอีกครั้ง",
+            passwordCheckTitle: "ด่านที่ 11: ทดสอบความแข็งแกร่งรหัสผ่าน",
+            passwordCheckDesc: "กรุณาลองตั้งรหัสผ่านตามความเข้าใจของคุณ เพื่อทดสอบว่าปลอดภัยเพียงใด",
+            passwordCheckLabel: "พิมพ์รหัสผ่านของคุณที่นี่ (การพิมพ์จะถูกซ่อน)",
+            passwordStrength: "ความแข็งแกร่ง:",
+            timeToCrack: "เวลาที่ใช้ในการเจาะรหัสผ่าน (โดยประมาณ):",
+            finishBtn: "เสร็จสิ้นและส่งผล",
+            criteria: {
+                length: "ความยาวอย่างน้อย 10 ตัวอักษร",
+                lowercase: "มีตัวอักษรพิมพ์เล็ก (a-z)",
+                uppercase: "มีตัวอักษรพิมพ์ใหญ่ (A-Z)",
+                number: "มีตัวเลข (0-9)",
+                symbol: "มีสัญลักษณ์พิเศษ (!@#$%)"
+            }
+        },
+        en: {
+            mainTitle: "Cybersecurity E-Learning",
+            mainSubtitle: "Cybersecurity Training Course for Bangkok Komatsu Employees",
+            employeeIdLabel: "Please enter your Employee ID to begin",
+            employeeIdError: "Please enter your Employee ID",
+            startBtn: "Start Learning",
+            backBtn: "Back",
+            nextBtn: "Next",
+            submitBtn: "Check Answers",
+            quizTitle: "Knowledge Check",
+            quizSubtitle: "Please answer all questions correctly to proceed",
+            finalTitle: "Thank you for learning!",
+            finalSlogan: "Protecting our data starts with you.",
+            submitting: "Submitting data...",
+            submitSuccess: "Data submitted successfully",
+            submitError: "An error occurred while submitting data",
+            submitConfigError: "Google Sheets integration is not configured. Cannot save data.",
+            toastIncomplete: "Please answer all questions.",
+            toastWrongAnswers: "You have incorrect answers for questions",
+            correctText: "Correct!",
+            wrongText: "Incorrect answer. Please try again.",
+            passwordCheckTitle: "Challenge 11: Password Strength Test",
+            passwordCheckDesc: "Please try creating a password based on what you've learned to test its security.",
+            passwordCheckLabel: "Type your password here (typing will be hidden)",
+            passwordStrength: "Strength:",
+            timeToCrack: "Estimated time to crack:",
+            finishBtn: "Finish & Submit",
+            criteria: {
+                length: "At least 10 characters long",
+                lowercase: "Contains a lowercase letter (a-z)",
+                uppercase: "Contains an uppercase letter (A-Z)",
+                number: "Contains a number (0-9)",
+                symbol: "Contains a special character (!@#$%)"
+            }
+        }
+    };
+
+    const contentData = {
+        th: {
+            pages: {
+                'page-1': {
+                    icon: `<svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>`,
+                    title: 'บทที่ 1: การสร้างปราการด่านแรก - รหัสผ่าน',
+                    description: 'รหัสผ่านคือปราการด่านที่สำคัญที่สุดในการปกป้องข้อมูล มาเรียนรู้วิธีสร้างรหัสผ่านที่แข็งแกร่งและจัดการอย่างปลอดภัย',
+                    points: [
+                        { type: 'good', title: 'รหัสผ่านต้องมีความยาวขั้นต่ำ 10 ตัวอักษร', desc: 'ควรประกอบด้วย: ตัวอักษรพิมพ์ใหญ่ (A-Z), พิมพ์เล็ก (a-z), ตัวเลข (0-9) และสัญลักษณ์พิเศษ (!@#$%) เช่น <code class="bg-gray-200 p-1 rounded text-sm">Jk-2025@Komatsu</code>'},
+                        { type: 'good', title: 'เปิดใช้งานการยืนยันตัวตนหลายปัจจัย (MFA)', desc: 'เป็นการเพิ่มชั้นความปลอดภัยที่สำคัญที่สุด แม้รหัสผ่านรั่วไหล บัญชีของคุณก็ยังปลอดภัย'},
+                        { type: 'bad', title: 'หลีกเลี่ยงการใช้รหัสผ่านซ้ำ', desc: 'การใช้รหัสผ่านเดียวในหลายๆ บริการอันตรายอย่างยิ่ง หากที่หนึ่งรั่วไหล ทุกบัญชีของคุณจะตกอยู่ในความเสี่ยง'}
+                    ]
+                },
+                'page-2': {
+                    icon: `<svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.91 15.91a4.5 4.5 0 01-6.364 0l-1.12-1.122a4.5 4.5 0 010-6.364l1.12-1.122a4.5 4.5 0 016.364 0l1.122 1.12m-5.244 2.38a.75.75 0 00.032.032l3.3 3.3a.75.75 0 001.06-1.06l-3.3-3.3a.75.75 0 00-.032-.032l-1.018-1.018a.75.75 0 00-1.06 1.06l1.018 1.018z" /></svg>`,
+                    title: 'บทที่ 2: ภัยคุกคามทางกายภาพ - USB และอุปกรณ์พกพา',
+                    description: 'อุปกรณ์ที่จับต้องได้ก็เป็นช่องทางของภัยคุกคามดิจิทัลได้เช่นกัน การใช้งานอย่างระมัดระวังเป็นสิ่งจำเป็น',
+                    points: [
+                        { type: 'bad', title: 'อย่าไว้ใจอุปกรณ์ที่ไม่รู้จัก', desc: 'ห้ามเสียบ USB หรืออุปกรณ์ใดๆ ที่ไม่ทราบที่มาเข้ากับคอมพิวเตอร์ของบริษัทเด็ดขาด เพราะอาจมีมัลแวร์ที่ทำงานอัตโนมัติ'},
+                        { type: 'good', title: 'สแกนก่อนใช้งานเสมอ', desc: 'แจ้งฝ่าย ICT เพื่อทำการสแกนไวรัสในอุปกรณ์ภายนอกทุกครั้งก่อนนำข้อมูลเข้าสู่ระบบของบริษัท'},
+                        { type: 'tip', title: 'การเข้ารหัสข้อมูล (Encryption)', desc: 'หากต้องเก็บข้อมูลสำคัญของบริษัทไว้ในอุปกรณ์พกพา ควรเข้ารหัสข้อมูลเสมอเพื่อป้องกันการเข้าถึงหากอุปกรณ์สูญหาย'}
+                    ]
+                },
+                'page-3': {
+                    icon: `<svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>`,
+                    title: 'บทที่ 3: การปกป้องข้อมูล - ทรัพย์สินขององค์กร',
+                    description: 'ข้อมูลคือหัวใจของธุรกิจ เราทุกคนมีหน้าที่ในการปกป้องข้อมูลตามระดับความสำคัญ และใช้งานอย่างรับผิดชอบ',
+                    points: [
+                        { type: 'good', title: 'รู้จักประเภทของข้อมูล', desc: 'ทำความเข้าใจการจำแนกประเภทข้อมูลของบริษัท (เช่น ข้อมูลสาธารณะ, ข้อมูลภายใน, ข้อมูลลับ) และจัดการตามนโยบาย'},
+                        { type: 'good', title: 'ล็อกหน้าจอทุกครั้งที่ลุกจากโต๊ะ', desc: 'กด <code class="bg-gray-200 p-1 rounded text-sm">Win + L</code> เป็นนิสัย ป้องกันการเข้าถึงโดยไม่ได้รับอนุญาต'},
+                        { type: 'bad', title: 'ระวังการทำงานในที่สาธารณะ', desc: 'หลีกเลี่ยงการเชื่อมต่อ Wi-Fi สาธารณะเพื่อทำงานกับข้อมูลสำคัญ ควรใช้ VPN ของบริษัทเสมอเพื่อความปลอดภัย'},
+                        { type: 'tip', title: 'ทำลายข้อมูลอย่างถูกวิธี', desc: 'การลบไฟล์ลงถังขยะอาจไม่เพียงพอสำหรับข้อมูลสำคัญ ควรปรึกษาฝ่าย ICT เกี่ยวกับขั้นตอนการทำลายข้อมูลอย่างปลอดภัย'}
+                    ]
+                },
+                'page-4': {
+                    icon: `<svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>`,
+                    title: 'บทที่ 4: การรับมือเมื่อสงสัยว่าจะถูกโจมตี',
+                    description: 'การโจมตีทางไซเบอร์เกิดขึ้นได้เสมอ สิ่งสำคัญคือการตั้งสติและปฏิบัติตามขั้นตอนอย่างรวดเร็วเพื่อลดความเสียหาย',
+                    points: [
+                        { type: 'bad', title: 'หยุด! อย่าตื่นตระหนก', desc: 'หากคอมพิวเตอร์มีอาการผิดปกติ เช่น ช้าลง, มีหน้าต่างแปลกๆ เด้งขึ้นมา, หรือไฟล์เปิดไม่ได้ อย่าพยายามแก้ไขด้วยตัวเองหรือปิดเครื่องทันที'},
+                        { type: 'good', title: 'ตัดการเชื่อมต่อ', desc: 'ถอดสายแลน (LAN) หรือปิด Wi-Fi ทันที เพื่อป้องกันไม่ให้มัลแวร์แพร่กระจายไปยังเครื่องอื่นในเครือข่าย'},
+                        { type: 'good', title: 'แจ้งเตือนทันที', desc: 'รีบติดต่อแผนก ICT โดยเร็วที่สุด พร้อมแจ้งข้อมูลอาการที่พบ และช่วงเวลาที่เกิดขึ้น การแจ้งเหตุเร็วคือหัวใจสำคัญของการรับมือ'},
+                        { type: 'tip', title: 'เก็บหลักฐาน', desc: 'หากเป็นไปได้ ถ่ายรูปหน้าจอที่ผิดปกติไว้เป็นหลักฐานเพื่อแจ้งฝ่าย ICT แต่อย่าพยายามคลิกหรือโต้ตอบใดๆ กับหน้าต่างนั้น'}
+                    ]
+                }
+            },
+            quiz: [
+                { q: "ตามนโยบายของบริษัท รหัสผ่านที่ดีควรมีลักษณะอย่างไร?", a: "ยาวอย่างน้อย 10 ตัวอักษรและผสมอักขระหลายประเภท", o: ["ใช้ชื่อเล่นและปีเกิด", "ยาวอย่างน้อย 10 ตัวอักษรและผสมอักขระหลายประเภท", "คำศัพท์ภาษาอังกฤษที่จำง่าย"] },
+                { q: "ข้อใดคือความเสี่ยงที่สำคัญที่สุดของการใช้รหัสผ่านเดียวกันในทุกระบบ?", a: "หากระบบหนึ่งรั่วไหล ทุกบัญชีจะมีความเสี่ยงทันที", o: ["ทำให้จำรหัสผ่านได้ง่ายเกินไป", "หากระบบหนึ่งรั่วไหล ทุกบัญชีจะมีความเสี่ยงทันที", "ผิดนโยบายการใช้งานของบางเว็บไซต์"] },
+                 { q: "สิ่งแรกที่ควรทำทันทีเมื่อสงสัยว่าคอมพิวเตอร์ติดไวรัสคืออะไร?", a: "ตัดการเชื่อมต่อจากเครือข่าย (LAN/Wi-Fi)", o: ["รีสตาร์ทเครื่องคอมพิวเตอร์", "พยายามลบไฟล์ที่น่าสงสัยด้วยตัวเอง", "ตัดการเชื่อมต่อจากเครือข่าย (LAN/Wi-Fi)"] },
+                { q: "หากคุณได้รับอีเมลพร้อมไฟล์แนบที่ไม่คาดคิดจากเพื่อนร่วมงาน ควรทำอย่างไร?", a: "ติดต่อเพื่อนร่วมงานผ่านช่องทางอื่นเพื่อยืนยันก่อนเปิด", o: ["เปิดได้เลยเพราะมาจากคนที่รู้จัก", "ลบอีเมลทิ้งทันที", "ติดต่อเพื่อนร่วมงานผ่านช่องทางอื่นเพื่อยืนยันก่อนเปิด"] },
+                { q: "เมื่อคอมพิวเตอร์ของคุณติด Ransomware (ไวรัสเรียกค่าไถ่) สิ่งที่ 'ไม่ควร' ทำที่สุดคืออะไร?", a: "จ่ายเงินค่าไถ่ให้แฮกเกอร์", o: ["จ่ายเงินค่าไถ่ให้แฮกเกอร์", "แจ้งฝ่าย ICT ทันที", "ตัดการเชื่อมต่ออินเทอร์เน็ต"] },
+                { q: "หากคุณจำเป็นต้องใช้ USB จากลูกค้า ควรทำอย่างไร?", a: "แจ้งฝ่าย ICT เพื่อทำการสแกนก่อนใช้งาน", o: ["เสียบใช้งานได้เลยเพื่อความรวดเร็ว", "แจ้งฝ่าย ICT เพื่อทำการสแกนก่อนใช้งาน", "คัดลอกไฟล์ในคอมพิวเตอร์ที่ไม่มีข้อมูลสำคัญ"] },
+                { q: "การกระทำใดช่วยปกป้องข้อมูลเมื่อคุณลุกจากโต๊ะทำงาน?", a: "กดปุ่ม Windows + L เพื่อล็อกหน้าจอ", o: ["ปิดจอภาพ", "เปิด Screensaver", "กดปุ่ม Windows + L เพื่อล็อกหน้าจอ"] },
+                { q: "หากต้องทำงานกับข้อมูลที่เป็นความลับของบริษัทผ่าน Wi-Fi ร้านกาแฟ ควรทำอย่างไร?", a: "เชื่อมต่อผ่าน VPN ของบริษัทเสมอ", o: ["ทำงานได้เลยเพราะมี Antivirus แล้ว", "เชื่อมต่อผ่าน VPN ของบริษัทเสมอ", "ทำงานเฉพาะไฟล์ที่ไม่ต้องเชื่อมต่ออินเทอร์เน็ต"] },
+                { q: "การจำแนกประเภทข้อมูล (Data Classification) มีประโยชน์อย่างไร?", a: "เพื่อให้ทราบว่าข้อมูลแต่ละชนิดควรได้รับการปกป้องในระดับใด", o: ["เพื่อให้ไฟล์มีสีสันสวยงาม", "เพื่อให้ทราบว่าข้อมูลแต่ละชนิดควรได้รับการปกป้องในระดับใด", "เพื่อให้ง่ายต่อการค้นหาไฟล์"] },
+                { q: "หลังจากแจ้งปัญหาคอมพิวเตอร์ติดไวรัสให้ฝ่าย ICT แล้ว ควรทำอย่างไรต่อ?", a: "รอการตรวจสอบและปฏิบัติตามคำแนะนำของ ICT", o: ["ลองใช้โปรแกรม Antivirus สแกนด้วยตัวเอง", "ทำงานต่อไปตามปกติ", "รอการตรวจสอบและปฏิบัติตามคำแนะนำของ ICT"] }
+            ]
+        },
+        en: {
+            pages: {
+                'page-1': {
+                    icon: `<svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>`,
+                    title: 'Module 1: Building Your First Line of Defense - Passwords',
+                    description: 'Passwords are the most critical barrier protecting your data. Let\'s learn how to create strong passwords and manage them securely.',
+                    points: [
+                        { type: 'good', title: 'Passwords must be at least 10 characters long', desc: 'It should contain: uppercase letters (A-Z), lowercase letters (a-z), numbers (0-9), and special symbols (!@#$%). E.g., <code class="bg-gray-200 p-1 rounded text-sm">Jk-2025@Komatsu</code>'},
+                        { type: 'good', title: 'Enable Multi-Factor Authentication (MFA)', desc: 'This is the most important security layer you can add. Even if your password is stolen, your account remains safe.'},
+                        { type: 'bad', title: 'Avoid Password Reuse', desc: 'Using the same password across multiple services is extremely dangerous. If one service is breached, all your accounts are at risk.'}
+                    ]
+                },
+                'page-2': {
+                    icon: `<svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.91 15.91a4.5 4.5 0 01-6.364 0l-1.12-1.122a4.5 4.5 0 010-6.364l1.12-1.122a4.5 4.5 0 016.364 0l1.122 1.12m-5.244 2.38a.75.75 0 00.032.032l3.3 3.3a.75.75 0 001.06-1.06l-3.3-3.3a.75.75 0 00-.032-.032l-1.018-1.018a.75.75 0 00-1.06 1.06l1.018 1.018z" /></svg>`,
+                    title: 'Module 2: Physical Threats - USBs and Portable Devices',
+                    description: 'Physical devices can be gateways for digital threats. Careful handling is essential.',
+                    points: [
+                        { type: 'bad', title: "Don't Trust Unknown Devices", desc: 'Never plug a USB drive or any device from an unknown source into a company computer. It could contain auto-running malware.'},
+                        { type: 'good', title: 'Scan Before Use', desc: 'Always ask the ICT department to scan any external device for viruses before you transfer data into the company network.'},
+                        { type: 'tip', title: 'Data Encryption', desc: 'If you must store sensitive company data on a portable device, always ensure the data is encrypted. This protects it if the device is lost or stolen.'}
+                    ]
+                },
+                'page-3': {
+                    icon: `<svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg>`,
+                    title: "Module 3: Protecting Data - The Company's Asset",
+                    description: "Data is the heart of our business. We all have a duty to protect it according to its sensitivity and handle it responsibly.",
+                    points: [
+                        { type: 'good', title: 'Know Your Data Types', desc: "Understand the company's data classification (e.g., Public, Internal, Confidential) and handle each type according to policy."},
+                        { type: 'good', title: 'Lock Your Screen', desc: 'Always press <code class="bg-gray-200 p-1 rounded text-sm">Win + L</code> when leaving your desk. This prevents unauthorized physical access.'},
+                        { type: 'bad', title: 'Beware of Public Wi-Fi', desc: 'Avoid working with sensitive data on public Wi-Fi networks. Always use the company VPN for a secure connection.'},
+                        { type: 'tip', title: 'Proper Data Disposal', desc: 'Deleting a file and emptying the recycle bin is often not enough for sensitive data. Consult IT for secure data destruction procedures.'}
+                    ]
+                },
+                'page-4': {
+                    icon: `<svg class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>`,
+                    title: 'Module 4: Responding to a Suspected Attack',
+                    description: 'Cyber attacks can happen. The most important thing is to stay calm and follow procedures quickly to minimize damage.',
+                    points: [
+                        { type: 'bad', title: "Stop! Don't Panic", desc: "If your computer acts strangely (slows down, pop-ups, files won't open), don't try to fix it yourself or immediately shut it down."},
+                        { type: 'good', title: 'Disconnect', desc: 'Immediately unplug the network cable (LAN) or turn off Wi-Fi. This prevents malware from spreading to other computers on the network.'},
+                        { type: 'good', title: 'Report Immediately', desc: 'Contact the ICT department as soon as possible. Provide details about the symptoms and when they occurred. Fast reporting is key to effective response.'},
+                        { type: 'tip', title: 'Preserve Evidence', desc: 'If possible, take a photo of any unusual screen activity as evidence for the ICT team, but do not click or interact with any pop-ups.'}
+                    ]
+                }
+            },
+            quiz: [
+                { q: "According to company policy, what is a characteristic of a strong password?", a: "At least 10 characters long with a mix of character types", o: ["Using your nickname and birth year", "At least 10 characters long with a mix of character types", "An easy-to-remember English word"] },
+                { q: "What is the most significant risk of reusing the same password for multiple systems?", a: "If one system is breached, all your accounts are immediately at risk", o: ["It makes the password too easy to remember", "If one system is breached, all your accounts are immediately at risk", "It violates the terms of service of some websites"] },
+                { q: "What is the very first thing you should do if you suspect your computer is infected with a virus?", a: "Disconnect it from the network (LAN/Wi-Fi)", o: ["Restart the computer", "Try to delete suspicious files yourself", "Disconnect it from the network (LAN/Wi-Fi)"] },
+                { q: "If you receive an unexpected email with an attachment from a colleague, what should you do?", a: "Contact the colleague through another channel to verify before opening", o: ["Open it, since it's from someone you know", "Delete the email immediately", "Contact the colleague through another channel to verify before opening"] },
+                { q: "If your computer is infected with Ransomware, what is the one thing you should NOT do?", a: "Pay the ransom to the hacker", o: ["Pay the ransom to the hacker", "Report to the ICT department immediately", "Disconnect from the internet"] },
+                { q: "If you need to use a USB drive from a customer, what should you do?", a: "Ask the ICT department to scan it before use", o: ["Plug it in directly to be efficient", "Ask the ICT department to scan it before use", "Copy the files on a non-critical computer first"] },
+                { q: "What action helps protect data when you step away from your desk?", a: "Press Windows + L to lock the screen", o: ["Turn off the monitor", "Start a screensaver", "Press Windows + L to lock the screen"] },
+                { q: "How should you handle confidential company data when working at a coffee shop?", a: "Always connect through the company VPN", o: ["It's safe because you have Antivirus", "Always connect through the company VPN", "Only work on files that do not require an internet connection"] },
+                { q: "What is the purpose of Data Classification?", a: "To know the level of protection required for different types of data", o: ["To make files look colorful", "To know the level of protection required for different types of data", "To make searching for files easier"] },
+                { q: "After reporting a virus infection to the ICT department, what should you do next?", a: "Wait for instructions and follow the guidance from ICT", o: ["Try to scan with an antivirus program yourself", "Continue working as usual", "Wait for instructions and follow the guidance from ICT"] }
+            ]
+        }
+    };
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        toastMessage.textContent = message;
+        toast.classList.add('show');
+
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+            toast.classList.remove('show');
+        }, 4000); // Hide after 4 seconds
+    }
+
+    function setLanguage(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        
+        Object.keys(uiText[lang]).forEach(key => {
+            const el = document.getElementById(key);
+            if (el) {
+                if (typeof uiText[lang][key] === 'object') {
+                    Object.keys(uiText[lang][key]).forEach(subKey => {
+                        const subEl = document.querySelector(`#crit-${subKey} span:last-child`);
+                        if(subEl) subEl.textContent = uiText[lang][key][subKey];
+                    });
+                } else {
+                    el.innerHTML = uiText[lang][key]; // Use innerHTML for tags like <strong>
+                }
+            }
+        });
+        
+        document.getElementById('language-selection').classList.add('hidden');
+        document.getElementById('login-section').classList.remove('hidden');
+    }
+
+    function renderPageContent() {
+         const pagesData = contentData[currentLang].pages;
+        for (const pageId in pagesData) {
+            const content = pagesData[pageId];
+            const pageElement = document.getElementById(pageId).querySelector('.card');
+            
+            let coreContent = '';
+            let pointsHTML = '<ul class="space-y-8">';
+            content.points.forEach(point => {
+                pointsHTML += `
+                    <li>
+                        <div class="flex items-start">
+                           <span class="${point.type} mt-1"></span>
+                           <p class="font-bold ml-2">${point.title}</p>
+                        </div>
+                        <div class="pl-8 text-gray-600">
+                           ${point.desc}
+                        </div>
+                    </li>
+                `;
+            });
+            pointsHTML += '</ul>';
+
+            coreContent = `
+                <div class="icon-container" style="color: var(--komatsu-blue);">${content.icon}</div>
+                <h2 class="font-bold mb-4">${content.title}</h2>
+                <p class="mb-8 text-gray-600">${content.description}</p>
+                ${pointsHTML}
+            `;
+            pageElement.insertAdjacentHTML('beforeend', coreContent);
+        }
+    }
+
+    function renderPasswordTester() {
+        const pageElement = document.getElementById('page-6').querySelector('.card');
+        const criteriaHTML = `
+            <div id="password-criteria" class="mt-4 text-sm text-gray-700 space-y-1">
+                <p id="crit-length" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.length}</span></p>
+                <p id="crit-lowercase" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.lowercase}</span></p>
+                <p id="crit-uppercase" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.uppercase}</span></p>
+                <p id="crit-number" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.number}</span></p>
+                <p id="crit-symbol" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.symbol}</span></p>
+            </div>
+        `;
+        const passwordTesterHTML = `
+            <h2 class="font-bold text-center mb-2" id="passwordCheckTitle">${uiText[currentLang].passwordCheckTitle}</h2>
+            <p class="text-gray-600 text-center mb-8" id="passwordCheckDesc">${uiText[currentLang].passwordCheckDesc}</p>
+            <div>
+                <label for="password-test" class="font-medium text-gray-700" id="passwordCheckLabel">${uiText[currentLang].passwordCheckLabel}</label>
+                <input type="password" id="password-test" class="w-full text-lg mt-2 px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                ${criteriaHTML}
+            </div>
+            <div id="strength-result-area" class="mt-6">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-medium" id="passwordStrength">${uiText[currentLang].passwordStrength}</span>
+                    <span id="strength-text" class="font-bold"></span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4">
+                    <div id="strength-bar" class="h-4 rounded-full" style="width: 0%;"></div>
+                </div>
+            </div>
+            <div class="mt-4 text-center bg-gray-100 p-4 rounded-lg">
+                <p class="font-medium" id="timeToCrack">${uiText[currentLang].timeToCrack}</p>
+                <p id="crack-time" class="text-2xl font-bold text-[var(--komatsu-blue)] mt-1">-</p>
+            </div>
+        `;
+        pageElement.insertAdjacentHTML('beforeend', passwordTesterHTML);
+
+        document.getElementById('password-test').addEventListener('input', (e) => {
+            const passwordValue = e.target.value;
+            testedPassword = passwordValue;
+            validatePasswordCriteria(passwordValue);
+            const strength = calculatePasswordStrength(passwordValue);
+            updateStrengthUI(strength);
+        });
+    }
+
+    function validatePasswordCriteria(password) {
+        const criteria = {
+            length: password.length >= 10,
+            lowercase: /[a-z]/.test(password),
+            uppercase: /[A-Z]/.test(password),
+            number: /[0-9]/.test(password),
+            symbol: /[^a-zA-Z0-9]/.test(password)
+        };
+
+        for (const key in criteria) {
+            const el = document.getElementById(`crit-${key}`);
+            if (criteria[key]) {
+                el.classList.add('met');
+            } else {
+                el.classList.remove('met');
+            }
+        }
+    }
+
+    function calculatePasswordStrength(password) {
+        let score = 0;
+        let charset = 0;
+
+        if (!password) return { score: 0, time: 0, text: '-', color: 'bg-gray-300' };
+
+        // Score calculation for visual bar
+        if (password.length >= 8) score++;
+        if (password.length >= 12) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^a-zA-Z0-9]/.test(password)) score++;
+        score = score * 1.66; // Scale score to better fit 0-10 range for bar
+
+        // Charset calculation for time
+        if (/[a-z]/.test(password)) charset += 26;
+        if (/[A-Z]/.test(password)) charset += 26;
+        if (/[0-9]/.test(password)) charset += 10;
+        if (/[^a-zA-Z0-9]/.test(password)) charset += 32;
+
+        const combinations = Math.pow(charset, password.length);
+        const guessesPerSecond = 10e9; // 10 billion
+        const seconds = combinations / guessesPerSecond;
+
+        let strengthText, color;
+        const oneYear = 31536000;
+        const oneCentury = oneYear * 100;
+
+        // Determine strength based on time to crack
+        if (seconds < 3600) { // Less than 1 hour
+            strengthText = currentLang === 'th' ? 'อ่อนมาก' : 'Very Weak';
+            color = 'bg-red-500';
+        } else if (seconds < oneYear) { // Less than 1 year
+            strengthText = currentLang === 'th' ? 'อ่อน' : 'Weak';
+            color = 'bg-orange-500';
+        } else if (seconds < oneCentury) { // Less than 1 century
+            strengthText = currentLang === 'th' ? 'ปานกลาง' : 'Medium';
+            color = 'bg-yellow-500';
+        } else if (seconds < (oneCentury * 1000)) { // Less than 1000 centuries (100k years)
+            strengthText = currentLang === 'th' ? 'แข็งแกร่ง' : 'Strong';
+            color = 'bg-green-500';
+        } else { // More than 100k years
+            strengthText = currentLang === 'th' ? 'แข็งแกร่งมาก' : 'Very Strong';
+            color = 'bg-emerald-600';
+        }
+
+        return { score, time: seconds, text: strengthText, color };
+    }
+
+    function updateStrengthUI(strength) {
+        const timeUnits = currentLang === 'th' ? 
+            { s: 'วินาที', m: 'นาที', h: 'ชั่วโมง', d: 'วัน', y: 'ปี', c: 'ศตวรรษ', M: 'ล้านปี', B: 'พันล้านปี', T: 'ล้านล้านปี', i: 'ทันที' } : 
+            { s: 'seconds', m: 'minutes', h: 'hours', d: 'days', y: 'years', c: 'centuries', M: 'million years', B: 'billion years', T: 'trillion years', i: 'instantly' };
+
+        let timeText;
+        if (strength.time < 1) timeText = timeUnits.i;
+        else if (strength.time < 60) timeText = `${Math.round(strength.time)} ${timeUnits.s}`;
+        else if (strength.time < 3600) timeText = `${Math.round(strength.time / 60)} ${timeUnits.m}`;
+        else if (strength.time < 86400) timeText = `${Math.round(strength.time / 3600)} ${timeUnits.h}`;
+        else if (strength.time < 31536000) timeText = `${Math.round(strength.time / 86400)} ${timeUnits.d}`;
+        else if (strength.time < 3153600000) timeText = `${(strength.time / 31536000).toPrecision(2)} ${timeUnits.y}`;
+        else if (strength.time < 315360000000) timeText = `${(strength.time / 3153600000).toPrecision(2)} ${timeUnits.c}`;
+        else if (strength.time < 3.1536e15) timeText = `${(strength.time / 3.1536e12).toPrecision(2)} ${timeUnits.M}`;
+        else if (strength.time < 3.1536e18) timeText = `${(strength.time / 3.1536e15).toPrecision(2)} ${timeUnits.B}`;
+        else timeText = `> 1 ${timeUnits.T}`;
+
+        document.getElementById('strength-text').textContent = strength.text;
+        const strengthBar = document.getElementById('strength-bar');
+        strengthBar.className = `h-4 rounded-full ${strength.color}`;
+        strengthBar.style.width = `${Math.min(100, (strength.score / 10) * 100)}%`;
+        document.getElementById('crack-time').textContent = testedPassword.length > 0 ? timeText : '-';
+    }
+
+    function showPage(pageNumber) {
+        pages.forEach(page => page.style.display = 'none');
+        document.getElementById(`page-${pageNumber}`).style.display = 'block';
+        updateNavButtons();
+        updateProgressBar(pageNumber);
+    }
+    
+    function updateProgressBar(pageNumber) {
+        const progressBar = document.getElementById('progress-bar');
+        if (pageNumber > 0 && pageNumber < totalContentPages - 1) { // Stop before last page
+            const progress = (pageNumber / (totalContentPages - 2)) * 100;
+            progressBar.style.width = `${progress}%`;
+        } else if (pageNumber >= totalContentPages - 1) {
+            progressBar.style.width = '100%';
+        } else {
+            progressBar.style.width = '0%';
+        }
+    }
+
+    function updateNavButtons() {
+        if (currentPage === 0) {
+            navigation.classList.add('hidden');
+        } else {
+            navigation.classList.remove('hidden');
+        }
+        
+        backBtn.style.visibility = currentPage > 1 && currentPage <= 5 ? 'visible' : 'hidden'; // 5 is quiz page
+        
+        if (currentPage === (totalContentPages - 1)) { // On result page (page 7)
+            navigation.classList.add('hidden');
+        } else if (currentPage === 6) { // On password tester
+            nextBtn.textContent = uiText[currentLang].finishBtn;
+        } else if (currentPage === 5) { // On quiz
+            nextBtn.textContent = uiText[currentLang].submitBtn;
+        } else {
+            nextBtn.textContent = uiText[currentLang].nextBtn;
+        }
+    }
+    
+    function buildQuiz() {
+        const quizForm = document.getElementById('quizForm');
+        quizForm.innerHTML = ''; // Clear previous quiz
+        const quizData = contentData[currentLang].quiz;
+        quizData.forEach((item, index) => {
+            const questionBlock = document.createElement('div');
+            questionBlock.className = 'mb-8 quiz-block';
+            questionBlock.id = `q-block-${index}`;
+            
+            const questionText = document.createElement('p');
+            questionText.className = 'font-semibold text-xl mb-4';
+            questionText.textContent = `${index + 1}. ${item.q}`;
+            questionBlock.appendChild(questionText);
+
+            const options = [...item.o].sort(() => Math.random() - 0.5);
+
+            options.forEach((option, i) => {
+                const optionId = `q${index}_o${i}`;
+                const radio = document.createElement('input');
+                radio.type = 'radio'; radio.name = `q${index}`; radio.value = option;
+                radio.required = true; radio.id = optionId; radio.className = 'hidden';
+                const label = document.createElement('label');
+                label.className = 'quiz-option'; label.htmlFor = optionId;
+                label.appendChild(document.createTextNode(option));
+                questionBlock.appendChild(radio);
+                questionBlock.appendChild(label);
+            });
+            
+            const feedbackCorrect = document.createElement('p');
+            feedbackCorrect.className = 'quiz-feedback correct text-green-600 font-medium mt-2';
+            feedbackCorrect.innerHTML = `<span class="good">${uiText[currentLang].correctText}</span>`;
+            questionBlock.appendChild(feedbackCorrect);
+            
+            const feedbackWrong = document.createElement('p');
+            feedbackWrong.className = 'quiz-feedback wrong text-red-600 font-medium mt-2';
+            feedbackWrong.innerHTML = `<span class="bad">${uiText[currentLang].wrongText}</span>`;
+            questionBlock.appendChild(feedbackWrong);
+
+            quizForm.appendChild(questionBlock);
+        });
+    }
+
+    function checkQuiz() {
+        const form = document.getElementById('quizForm');
+        if (!form.checkValidity()) {
+            showToast(uiText[currentLang].toastIncomplete);
+            return false;
+        }
+
+        let allCorrect = true;
+        const wrongQuestions = [];
+        const quizData = contentData[currentLang].quiz;
+        quizData.forEach((item, index) => {
+            const qBlock = document.getElementById(`q-block-${index}`);
+            const answer = form.elements[`q${index}`].value;
+            
+            qBlock.classList.remove('quiz-block-correct', 'quiz-block-wrong');
+
+            if (answer === item.a) {
+                qBlock.classList.add('quiz-block-correct');
+            } else {
+                qBlock.classList.add('quiz-block-wrong');
+                allCorrect = false;
+                wrongQuestions.push(index + 1);
+            }
+        });
+        
+        if (!allCorrect) {
+            showToast(`${uiText[currentLang].toastWrongAnswers}: ${wrongQuestions.join(', ')}`);
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+    function showFinalResultAndSubmit() {
+        currentPage++;
+        const resultPage = document.getElementById('page-7').querySelector('.card');
+        
+        resultPage.innerHTML = `
+            <svg class="w-24 h-24 text-green-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h2 id="finalTitle" class="font-bold">${uiText[currentLang].finalTitle}</h2>
+            <p id="finalSlogan" class="text-gray-600 mt-4 text-2xl">${uiText[currentLang].finalSlogan}</p>
+            <p id="submissionStatus" class="mt-8 text-gray-500"></p>
+        `;
+        showPage(currentPage);
+        
+        const userAnswers = [];
+        const quizData = contentData[currentLang].quiz;
+        const form = document.getElementById('quizForm');
+        quizData.forEach((item, index) => {
+            userAnswers.push(form.elements[`q${index}`].value);
+        });
+        userAnswers.push(testedPassword);
+        
+        sendDataToSheet(`${quizData.length}/${quizData.length}`, userAnswers);
+    }
+    
+    function sendDataToSheet(score, answers) {
+        const statusEl = document.getElementById('submissionStatus');
+        if (!statusEl) return;
+        statusEl.textContent = uiText[currentLang].submitting;
+
+        if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' || SCRIPT_URL === '') {
+            statusEl.textContent = uiText[currentLang].submitConfigError;
+            statusEl.style.color = '#dc2626';
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append('data', JSON.stringify({ employeeId, score, answers }));
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => {
+            // A successful POST to Apps Script might not return a parsable JSON
+            // if there are redirects. We will optimistically assume success.
+             if (res.ok || res.type === 'opaque') {
+                statusEl.textContent = uiText[currentLang].submitSuccess;
+                statusEl.style.color = '#16a34a';
+            } else {
+                 throw new Error(`Network response was not ok: ${res.statusText}`);
+            }
+        })
+        .catch(error => {
+            statusEl.textContent = uiText[currentLang].submitError;
+            statusEl.style.color = '#dc2626';
+            console.error('Error:', error);
+        });
+    }
+
+    startBtn.addEventListener('click', () => {
+        const idInput = document.getElementById('employeeId');
+        const errorEl = document.getElementById('employeeIdError');
+        if (idInput.value.trim() === '') {
+            errorEl.classList.remove('hidden');
+            idInput.classList.add('border-red-500');
+        } else {
+            employeeId = idInput.value.trim();
+            errorEl.classList.add('hidden');
+            idInput.classList.remove('border-red-500');
+            
+            navbar.classList.remove('hidden');
+            footer.classList.remove('hidden');
+
+            currentPage++;
+            renderPageContent();
+            buildQuiz();
+            renderPasswordTester();
+            showPage(currentPage);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentPage === 5) { // On Quiz page
+            if (checkQuiz()) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        } else if (currentPage === 6) { // On Password Tester page
+             showFinalResultAndSubmit();
+        } else if (currentPage < totalContentPages) {
+            currentPage++;
+            showPage(currentPage);
+        }
+    });
+
+    backBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            showPage(currentPage);
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        showPage(0);
+    });
+</script>
+
+</body>
+</html>
+
