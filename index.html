@@ -71,16 +71,8 @@
         .btn-secondary:hover:not(:disabled) {
             background-color: #d1d5db;
         }
-        .btn-success {
-            background-color: #16a34a; /* Green */
-            color: white;
-        }
-        .btn-success:hover:not(:disabled) {
-            background-color: #15803d;
-            transform: translateY(-2px);
-        }
-
-        .quiz-option {
+       
+        .quiz-option, .survey-option {
             display: block;
             padding: 1rem 1.25rem;
             border: 2px solid #e5e7eb;
@@ -90,7 +82,7 @@
             transition: background-color 0.2s, border-color 0.2s;
             font-size: 1.125rem;
         }
-        .quiz-option:hover {
+        .quiz-option:hover, .survey-option:hover {
             border-color: #9ca3af;
         }
         input[type="radio"]:checked + label {
@@ -130,9 +122,8 @@
         
         <header id="navbar" class="hidden bg-[var(--komatsu-blue)] text-white px-4 pt-4 pb-6 rounded-t-xl shadow-lg relative z-10">
             <h1 class="text-xl font-bold text-center sm:text-left">Cybersecurity E‑Learning</h1>
-            <!-- New Progress Bar Location -->
             <div id="global-progress-container" class="absolute bottom-0 left-0 w-full h-1.5">
-                <div class="w-full h-full bg-white/20"> <!-- Track with some transparency -->
+                <div class="w-full h-full bg-white/20">
                     <div id="progress-bar" class="h-full bg-white" style="width: 0%; transition: width 0.5s ease-in-out;"></div>
                 </div>
             </div>
@@ -140,50 +131,46 @@
 
         <main id="elearning-container">
 
-            <!-- Page 0: Cover / Language Selection -->
-            <div id="page-0" class="page text-center">
-                <div class="card">
-                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyBzPqeEpBv32g7FuA4vBEaTR1F-alfIJCCQ&s" alt="Komatsu logo" style="display: block; margin: 0 auto;">
-                    <h1 id="main-title" class="font-bold mt-4 mb-2">Cybersecurity E-Learning for Komatsu Thailand Group</h1>
-                    <p id="main-subtitle" class="text-gray-600 mb-8">หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Komatsu Thailand Group</p>
-                    
-                    <div id="language-selection">
-                        <p class="font-semibold mb-4">กรุณาเลือกภาษา / Please select a language</p>
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                            <button onclick="setLanguage('th')" class="btn btn-primary flex-1">ไทย</button>
-                            <button onclick="setLanguage('en')" class="btn btn-primary flex-1">English</button>
-                        </div>
-                    </div>
-
-                    <div id="login-section" class="max-w-sm mx-auto mt-8 hidden">
-                        <div>
-                            <label for="employeeId" id="employeeIdLabel" class="block text-left font-medium text-gray-700 mb-2">กรุณากรอกรหัสพนักงาน</label>
-                            <input type="text" id="employeeId" class="w-full text-lg px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 12345">
-                            <p id="employeeIdError" class="text-red-600 text-sm mt-2 hidden">กรุณากรอกรหัสพนักงาน</p>
-                        </div>
-                        <div class="mt-4">
-                            <label for="companySelect" id="companySelectLabel" class="block text-left font-medium text-gray-700 mb-2">บริษัท</label>
-                            <select id="companySelect" class="w-full text-lg px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
-                                <option value="" disabled selected id="companySelectPlaceholder">-- เลือกบริษัท --</option>
-                                <option value="Bangkok Komatsu">Bangkok Komatsu</option>
-                                <option value="Komatsu Part Asia">Komatsu Part Asia</option>
-                                <option value="Komatsu Academy Asia">Komatsu Academy Asia</option>
-                                <option value="Bangkok Komatsu Sales">Bangkok Komatsu Sales</option>
-                            </select>
-                            <p id="companySelectError" class="text-red-600 text-sm mt-2 hidden">กรุณาเลือกบริษัท</p>
-                        </div>
-                        <button id="startBtn" class="w-full mt-6 btn btn-primary">เริ่มเรียนรู้</button>
+            <div id="page-0" class="page text-center"><div class="card">
+                <a href="#" class="nav-link" data-translate-key="nav_home">Home</a>
+                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyBzPqeEpBv32g7FuA4vBEaTR1F-alfIJCCQ&s" alt="Komatsu logo" style="display: block; margin: 0 auto;">
+                    <h1 id="mainTitle" class="font-bold mt-4 mb-2">Cybersecurity E-Learning for Komatsu Thailand Group</h1>
+                    <p id="mainSubtitle" class="text-gray-600 mb-8">หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Komatsu Thailand Group</p>
+                <div id="language-selection">
+                    <p class="font-semibold mb-4">กรุณาเลือกภาษา / Please select a language</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="setLanguage('th')" class="btn btn-primary flex-1">ไทย</button>
+                        <button onclick="setLanguage('en')" class="btn btn-primary flex-1">English</button>
                     </div>
                 </div>
-            </div>
+                <div id="login-section" class="max-w-sm mx-auto mt-8 hidden">
+                    <div>
+                        <label for="employeeId" id="employeeIdLabel" class="block text-left font-medium text-gray-700 mb-2">กรุณากรอกรหัสพนักงาน</label>
+                        <input type="text" id="employeeId" class="w-full text-lg px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 12345">
+                        <p id="employeeIdError" class="text-red-600 text-sm mt-2 hidden">กรุณากรอกรหัสพนักงาน</p>
+                    </div>
+                    <div class="mt-4">
+                        <label for="companySelect" id="companySelectLabel" class="block text-left font-medium text-gray-700 mb-2">บริษัท</label>
+                        <select id="companySelect" class="w-full text-lg px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white">
+                            <option value="" disabled selected id="companySelectPlaceholder">-- เลือกบริษัท --</option>
+                            <option value="BKC">Bangkok Komatsu</option>
+                            <option value="KPAC">Komastu Part Asia</option>
+                            <option value="KAA">Komatsu Acadamy Asia</option>
+                        </select>
+                        <p id="companySelectError" class="text-red-600 text-sm mt-2 hidden">กรุณาเลือกบริษัท</p>
+                    </div>
+                    <button id="startBtn" class="w-full mt-6 btn btn-primary">เริ่มเรียนรู้</button>
+                </div>
+            </div></div>
 
             <div id="page-1" class="page"><div class="card content-card"></div></div>
             <div id="page-2" class="page"><div class="card content-card"></div></div>
             <div id="page-3" class="page"><div class="card content-card"></div></div>
             <div id="page-4" class="page"><div class="card content-card"></div></div>
-            <div id="page-5" class="page"><div class="card content-card"><h2 id="quiz-title" class="text-center mb-2 font-bold">แบบทดสอบความเข้าใจ</h2><p id="quiz-subtitle" class="text-center text-gray-600 mb-6">กรุณาตอบคำถามให้ถูกต้องทั้งหมดเพื่อไปต่อ</p><form id="quizForm"></form></div></div>
+            <div id="page-5" class="page"><div class="card content-card"><h2 id="quizTitle" class="text-center mb-2 font-bold">แบบทดสอบความเข้าใจ</h2><p id="quizSubtitle" class="text-center text-gray-600 mb-6">กรุณาตอบคำถามให้ถูกต้องทั้งหมดเพื่อไปต่อ</p><form id="quizForm"></form></div></div>
             <div id="page-6" class="page"><div class="card content-card" id="password-test-card"></div></div>
-            <div id="page-7" class="page text-center"><div class="card content-card"></div></div>
+            <div id="page-7" class="page"><div class="card content-card"><h2 id="surveyTitle" class="text-center mb-6 font-bold">แบบสำรวจความพึงพอใจ</h2><form id="surveyForm"></form></div></div>
+            <div id="page-8" class="page text-center"><div class="card content-card"></div></div>
             
             <div id="navigation" class="flex justify-between mt-8 hidden">
                 <button id="backBtn" class="btn btn-secondary">ย้อนกลับ</button>
@@ -192,23 +179,19 @@
         </main>
 
         <footer id="footer" class="hidden text-center p-4 text-gray-500 text-sm mt-2">
-            <p>Developed by ICT Section - Bangkok Komatsu Co., Ltd. © — For Internal Training Use Only</p>
-            <p>Version 1</p>
+            <p>© Bangkok Komatsu (Thailand) — Internal Training Use Only</p>
         </footer>
     </div>
 
-    <!-- Toast Notification -->
     <div id="toast" class="fixed bottom-10 left-1/2 bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg pointer-events-none">
         <p id="toast-message"></p>
     </div>
 
-
 <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSiuCy70D0DqvR6oKixb3PNt0p6rdUtEYuuvY0RuqrmVQtyepzRAR3cTjPvWnH0FgpAg/exec'; 
-    
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUq3_HbKao49c7D0nHYkr1x5osM_NhyD9Oh_1fktb1Wp6BzGyQDfM161LJa8L5u7UBEg/exec';
 
     let currentPage = 0;
-    const totalContentPages = 8;
+    const totalContentPages = 9;
     let currentLang = 'th';
     let employeeId = '';
     let company = '';
@@ -226,7 +209,7 @@
     const uiText = {
         th: {
             mainTitle: "Cybersecurity E-Learning",
-            mainSubtitle: "หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Bangkok Komatsu",
+            mainSubtitle: "หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Komatsu Thailand Group",
             employeeIdLabel: "กรุณากรอกรหัสพนักงาน",
             employeeIdError: "กรุณากรอกรหัสพนักงาน",
             companySelectLabel: "บริษัท",
@@ -235,15 +218,18 @@
             startBtn: "เริ่มเรียนรู้",
             backBtn: "ย้อนกลับ",
             nextBtn: "ถัดไป",
-            submitBtn: "ตรวจคำตอบ",
+            submitQuizBtn: "ตรวจคำตอบ",
+            goToSurveyBtn: "ทำแบบสำรวจ",
+            submitSurveyBtn: "ส่งแบบสำรวจ",
             quizTitle: "แบบทดสอบความเข้าใจ",
             quizSubtitle: "กรุณาตอบคำถามให้ถูกต้องทั้งหมดเพื่อไปต่อ",
+            surveyTitle: "แบบสำรวจความพึงพอใจ",
             finalTitle: "ขอบคุณสำหรับการเรียนรู้!",
             finalSlogan: "ปกป้องทุกข้อมูล ด้วยมือของคุณ",
             submitting: "กำลังบันทึกข้อมูล...",
             submitSuccess: "บันทึกข้อมูลเรียบร้อยแล้ว",
             submitError: "เกิดข้อผิดพลาดในการบันทึกข้อมูล",
-            submitConfigError: "การตั้งค่า Google Sheets ยังไม่สมบูรณ์ ไม่สามารถบันทึกข้อมูลได้",
+            submitConfigError: "การตั้งค่า URL ของ Script ยังไม่สมบูรณ์",
             toastIncomplete: "กรุณาตอบคำถามให้ครบทุกข้อ",
             toastWrongAnswers: "คุณตอบผิดในข้อที่",
             correctText: "ถูกต้อง!",
@@ -253,18 +239,25 @@
             passwordCheckLabel: "พิมพ์รหัสผ่านของคุณที่นี่ (การพิมพ์จะถูกซ่อน)",
             passwordStrength: "ความแข็งแกร่ง:",
             timeToCrack: "เวลาที่ใช้ในการเจาะรหัสผ่าน (โดยประมาณ):",
-            finishBtn: "เสร็จสิ้นและส่งผล",
             criteria: {
                 length: "ความยาวอย่างน้อย 10 ตัวอักษร",
                 lowercase: "มีตัวอักษรพิมพ์เล็ก (a-z)",
                 uppercase: "มีตัวอักษรพิมพ์ใหญ่ (A-Z)",
                 number: "มีตัวเลข (0-9)",
                 symbol: "มีสัญลักษณ์พิเศษ (!@#$%)"
-            }
+            },
+            surveyQuestions: [
+                "เนื้อหาในการอบรมมีประโยชน์และนำไปปรับใช้ได้จริง",
+                "เนื้อหามีความชัดเจนและเข้าใจง่าย",
+                "ระยะเวลาในการอบรมมีความเหมาะสม",
+                "แพลตฟอร์ม E-Learning ใช้งานง่ายและสะดวก",
+                "ท่านจะแนะนำการอบรมนี้ให้เพื่อนร่วมงานท่านอื่น"
+            ],
+            surveyScale: ["น้อยที่สุด", "น้อย", "ปานกลาง", "มาก", "มากที่สุด"]
         },
         en: {
             mainTitle: "Cybersecurity E-Learning",
-            mainSubtitle: "Cybersecurity Training Course for Bangkok Komatsu Employees",
+            mainSubtitle: "Cybersecurity Training Course for Komatsu Thailand Group",
             employeeIdLabel: "Please enter your Employee ID",
             employeeIdError: "Please enter your Employee ID",
             companySelectLabel: "Company",
@@ -273,15 +266,18 @@
             startBtn: "Start Learning",
             backBtn: "Back",
             nextBtn: "Next",
-            submitBtn: "Check Answers",
+            submitQuizBtn: "Check Answers",
+            goToSurveyBtn: "Go to Survey",
+            submitSurveyBtn: "Submit Survey",
             quizTitle: "Knowledge Check",
             quizSubtitle: "Please answer all questions correctly to proceed",
+            surveyTitle: "Satisfaction Survey",
             finalTitle: "Thank you for learning!",
             finalSlogan: "Protecting our data starts with you.",
             submitting: "Submitting data...",
             submitSuccess: "Data submitted successfully",
             submitError: "An error occurred while submitting data",
-            submitConfigError: "Google Sheets integration is not configured. Cannot save data.",
+            submitConfigError: "Script URL is not configured correctly.",
             toastIncomplete: "Please answer all questions.",
             toastWrongAnswers: "You have incorrect answers for questions",
             correctText: "Correct!",
@@ -291,17 +287,24 @@
             passwordCheckLabel: "Type your password here (typing will be hidden)",
             passwordStrength: "Strength:",
             timeToCrack: "Estimated time to crack:",
-            finishBtn: "Finish & Submit",
             criteria: {
                 length: "At least 10 characters long",
                 lowercase: "Contains a lowercase letter (a-z)",
                 uppercase: "Contains an uppercase letter (A-Z)",
                 number: "Contains a number (0-9)",
                 symbol: "Contains a special character (!@#$%)"
-            }
+            },
+            surveyQuestions: [
+                "The training content was useful and applicable.",
+                "The content was clear and easy to understand.",
+                "The duration of the training was appropriate.",
+                "The E-Learning platform was easy and convenient to use.",
+                "You would recommend this training to other colleagues."
+            ],
+            surveyScale: ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"]
         }
     };
-
+    
     const contentData = {
         th: {
             pages: {
@@ -424,20 +427,15 @@
     function showToast(message) {
         const toast = document.getElementById('toast');
         const toastMessage = document.getElementById('toast-message');
-
         toastMessage.textContent = message;
         toast.classList.add('show');
-
         clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-            toast.classList.remove('show');
-        }, 4000); // Hide after 4 seconds
+        toastTimeout = setTimeout(() => { toast.classList.remove('show'); }, 4000);
     }
 
     function setLanguage(lang) {
         currentLang = lang;
         document.documentElement.lang = lang;
-        
         Object.keys(uiText[lang]).forEach(key => {
             const el = document.getElementById(key);
             if (el) {
@@ -447,11 +445,10 @@
                         if(subEl) subEl.textContent = uiText[lang][key][subKey];
                     });
                 } else {
-                    el.innerHTML = uiText[lang][key]; // Use innerHTML for tags like <strong>
+                    el.innerHTML = uiText[lang][key];
                 }
             }
         });
-        
         document.getElementById('language-selection').classList.add('hidden');
         document.getElementById('login-section').classList.remove('hidden');
     }
@@ -461,45 +458,21 @@
         for (const pageId in pagesData) {
             const content = pagesData[pageId];
             const pageElement = document.getElementById(pageId).querySelector('.card');
-            
-            let coreContent = '';
             let pointsHTML = '<ul class="space-y-8">';
             content.points.forEach(point => {
-                pointsHTML += `
-                    <li>
-                        <div class="flex items-start">
-                           <span class="${point.type} mt-1"></span>
-                           <p class="font-bold ml-2">${point.title}</p>
-                        </div>
-                        <div class="pl-8 text-gray-600">
-                           ${point.desc}
-                        </div>
-                    </li>
-                `;
+                pointsHTML += `<li><div class="flex items-start"><span class="${point.type} mt-1"></span><p class="font-bold ml-2">${point.title}</p></div><div class="pl-8 text-gray-600">${point.desc}</div></li>`;
             });
             pointsHTML += '</ul>';
-
-            coreContent = `
-                <div class="icon-container" style="color: var(--komatsu-blue);">${content.icon}</div>
-                <h2 class="font-bold mb-4">${content.title}</h2>
-                <p class="mb-8 text-gray-600">${content.description}</p>
-                ${pointsHTML}
-            `;
+            const coreContent = `<div class="icon-container" style="color: var(--komatsu-blue);">${content.icon}</div><h2 class="font-bold mb-4">${content.title}</h2><p class="mb-8 text-gray-600">${content.description}</p>${pointsHTML}`;
             pageElement.insertAdjacentHTML('beforeend', coreContent);
         }
     }
 
     function renderPasswordTester() {
         const pageElement = document.getElementById('page-6').querySelector('.card');
-        const criteriaHTML = `
-            <div id="password-criteria" class="mt-4 text-sm text-gray-700 space-y-1">
-                <p id="crit-length" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.length}</span></p>
-                <p id="crit-lowercase" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.lowercase}</span></p>
-                <p id="crit-uppercase" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.uppercase}</span></p>
-                <p id="crit-number" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.number}</span></p>
-                <p id="crit-symbol" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria.symbol}</span></p>
-            </div>
-        `;
+        const criteriaHTML = `<div id="password-criteria" class="mt-4 text-sm text-gray-700 space-y-1">` +
+            Object.keys(uiText[currentLang].criteria).map(key => `<p id="crit-${key}" class="criteria-item"><span class="indicator"></span><span>${uiText[currentLang].criteria[key]}</span></p>`).join('') +
+            `</div>`;
         const passwordTesterHTML = `
             <h2 class="font-bold text-center mb-2" id="passwordCheckTitle">${uiText[currentLang].passwordCheckTitle}</h2>
             <p class="text-gray-600 text-center mb-8" id="passwordCheckDesc">${uiText[currentLang].passwordCheckDesc}</p>
@@ -513,17 +486,13 @@
                     <span class="font-medium" id="passwordStrength">${uiText[currentLang].passwordStrength}</span>
                     <span id="strength-text" class="font-bold"></span>
                 </div>
-                <div class="w-full bg-gray-200 rounded-full h-4">
-                    <div id="strength-bar" class="h-4 rounded-full" style="width: 0%;"></div>
-                </div>
+                <div class="w-full bg-gray-200 rounded-full h-4"><div id="strength-bar" class="h-4 rounded-full" style="width: 0%;"></div></div>
             </div>
             <div class="mt-4 text-center bg-gray-100 p-4 rounded-lg">
                 <p class="font-medium" id="timeToCrack">${uiText[currentLang].timeToCrack}</p>
                 <p id="crack-time" class="text-2xl font-bold text-[var(--komatsu-blue)] mt-1">-</p>
-            </div>
-        `;
+            </div>`;
         pageElement.insertAdjacentHTML('beforeend', passwordTesterHTML);
-
         document.getElementById('password-test').addEventListener('input', (e) => {
             const passwordValue = e.target.value;
             testedPassword = passwordValue;
@@ -533,98 +502,81 @@
         });
     }
 
+    function renderSurvey() {
+        const surveyForm = document.getElementById('surveyForm');
+        const questions = uiText[currentLang].surveyQuestions;
+        const scale = uiText[currentLang].surveyScale;
+        let surveyHTML = '';
+        questions.forEach((q, i) => {
+            surveyHTML += `<div class="mb-8 survey-block"><p class="font-semibold text-xl mb-4">${i + 1}. ${q}</p>`;
+            scale.forEach((label, j) => {
+                const optionId = `s${i}_o${j}`;
+                surveyHTML += `
+                    <input type="radio" name="s${i}" value="${j+1}" required id="${optionId}" class="hidden">
+                    <label for="${optionId}" class="survey-option">${j+1} - ${label}</label>
+                `;
+            });
+            surveyHTML += `</div>`;
+        });
+        surveyForm.innerHTML = surveyHTML;
+    }
+
     function validatePasswordCriteria(password) {
         const criteria = {
-            length: password.length >= 10,
-            lowercase: /[a-z]/.test(password),
-            uppercase: /[A-Z]/.test(password),
-            number: /[0-9]/.test(password),
+            length: password.length >= 10, lowercase: /[a-z]/.test(password),
+            uppercase: /[A-Z]/.test(password), number: /[0-9]/.test(password),
             symbol: /[^a-zA-Z0-9]/.test(password)
         };
-
         for (const key in criteria) {
-            const el = document.getElementById(`crit-${key}`);
-            if (criteria[key]) {
-                el.classList.add('met');
-            } else {
-                el.classList.remove('met');
-            }
+            document.getElementById(`crit-${key}`).classList.toggle('met', criteria[key]);
         }
     }
 
     function calculatePasswordStrength(password) {
-        let score = 0;
-        let charset = 0;
-
         if (!password) return { score: 0, time: 0, text: '-', color: 'bg-gray-300' };
-
-        // Score calculation for visual bar
-        if (password.length >= 8) score++;
-        if (password.length >= 12) score++;
-        if (/[a-z]/.test(password)) score++;
-        if (/[A-Z]/.test(password)) score++;
-        if (/[0-9]/.test(password)) score++;
-        if (/[^a-zA-Z0-9]/.test(password)) score++;
-        score = score * 1.66; // Scale score to better fit 0-10 range for bar
-
-        // Charset calculation for time
-        if (/[a-z]/.test(password)) charset += 26;
-        if (/[A-Z]/.test(password)) charset += 26;
-        if (/[0-9]/.test(password)) charset += 10;
-        if (/[^a-zA-Z0-9]/.test(password)) charset += 32;
-
-        const combinations = Math.pow(charset, password.length);
-        const guessesPerSecond = 10e9; // 10 billion
-        const seconds = combinations / guessesPerSecond;
-
+        let score = 0, charset = 0;
+        if (password.length >= 8) score++; if (password.length >= 12) score++;
+        if (/[a-z]/.test(password)) { score++; charset += 26; }
+        if (/[A-Z]/.test(password)) { score++; charset += 26; }
+        if (/[0-9]/.test(password)) { score++; charset += 10; }
+        if (/[^a-zA-Z0-9]/.test(password)) { score++; charset += 32; }
+        score *= 1.66;
+        const seconds = Math.pow(charset, password.length) / 10e9;
+        const oneYear = 31536000, oneCentury = oneYear * 100;
         let strengthText, color;
-        const oneYear = 31536000;
-        const oneCentury = oneYear * 100;
-
-        // Determine strength based on time to crack
-        if (seconds < 3600) { // Less than 1 hour
-            strengthText = currentLang === 'th' ? 'อ่อนมาก' : 'Very Weak';
-            color = 'bg-red-500';
-        } else if (seconds < oneYear) { // Less than 1 year
-            strengthText = currentLang === 'th' ? 'อ่อน' : 'Weak';
-            color = 'bg-orange-500';
-        } else if (seconds < oneCentury) { // Less than 1 century
-            strengthText = currentLang === 'th' ? 'ปานกลาง' : 'Medium';
-            color = 'bg-yellow-500';
-        } else if (seconds < (oneCentury * 1000)) { // Less than 1000 centuries (100k years)
-            strengthText = currentLang === 'th' ? 'แข็งแกร่ง' : 'Strong';
-            color = 'bg-green-500';
-        } else { // More than 100k years
-            strengthText = currentLang === 'th' ? 'แข็งแกร่งมาก' : 'Very Strong';
-            color = 'bg-emerald-600';
-        }
-
+        if (seconds < 3600) { strengthText = currentLang === 'th' ? 'อ่อนมาก' : 'Very Weak'; color = 'bg-red-500'; }
+        else if (seconds < oneYear) { strengthText = currentLang === 'th' ? 'อ่อน' : 'Weak'; color = 'bg-orange-500'; }
+        else if (seconds < oneCentury) { strengthText = currentLang === 'th' ? 'ปานกลาง' : 'Medium'; color = 'bg-yellow-500'; }
+        else if (seconds < (oneCentury * 1000)) { strengthText = currentLang === 'th' ? 'แข็งแกร่ง' : 'Strong'; color = 'bg-green-500'; }
+        else { strengthText = currentLang === 'th' ? 'แข็งแกร่งมาก' : 'Very Strong'; color = 'bg-emerald-600'; }
         return { score, time: seconds, text: strengthText, color };
     }
 
     function updateStrengthUI(strength) {
-        const timeUnits = currentLang === 'th' ? 
-            { s: 'วินาที', m: 'นาที', h: 'ชั่วโมง', d: 'วัน', y: 'ปี', c: 'ศตวรรษ', M: 'ล้านปี', B: 'พันล้านปี', T: 'ล้านล้านปี', i: 'ทันที' } : 
-            { s: 'seconds', m: 'minutes', h: 'hours', d: 'days', y: 'years', c: 'centuries', M: 'million years', B: 'billion years', T: 'trillion years', i: 'instantly' };
-
+        const timeUnits = {
+            th: { s: 'วินาที', m: 'นาที', h: 'ชั่วโมง', d: 'วัน', y: 'ปี', c: 'ศตวรรษ', M: 'ล้านปี', B: 'พันล้านปี', T: 'ล้านล้านปี', i: 'ทันที' },
+            en: { s: 'seconds', m: 'minutes', h: 'hours', d: 'days', y: 'years', c: 'centuries', M: 'million years', B: 'billion years', T: 'trillion years', i: 'instantly' }
+        };
+        const units = timeUnits[currentLang];
         let timeText;
-        if (strength.time < 1) timeText = timeUnits.i;
-        else if (strength.time < 60) timeText = `${Math.round(strength.time)} ${timeUnits.s}`;
-        else if (strength.time < 3600) timeText = `${Math.round(strength.time / 60)} ${timeUnits.m}`;
-        else if (strength.time < 86400) timeText = `${Math.round(strength.time / 3600)} ${timeUnits.h}`;
-        else if (strength.time < 31536000) timeText = `${Math.round(strength.time / 86400)} ${timeUnits.d}`;
-        else if (strength.time < 3153600000) timeText = `${(strength.time / 31536000).toPrecision(2)} ${timeUnits.y}`;
-        else if (strength.time < 315360000000) timeText = `${(strength.time / 3153600000).toPrecision(2)} ${timeUnits.c}`;
-        else if (strength.time < 3.1536e15) timeText = `${(strength.time / 3.1536e12).toPrecision(2)} ${timeUnits.M}`;
-        else if (strength.time < 3.1536e18) timeText = `${(strength.time / 3.1536e15).toPrecision(2)} ${timeUnits.B}`;
-        else timeText = `> 1 ${timeUnits.T}`;
+        if (strength.time < 1) timeText = units.i;
+        else if (strength.time < 60) timeText = `${Math.round(strength.time)} ${units.s}`;
+        else if (strength.time < 3600) timeText = `${Math.round(strength.time / 60)} ${units.m}`;
+        else if (strength.time < 86400) timeText = `${Math.round(strength.time / 3600)} ${units.h}`;
+        else if (strength.time < 31536000) timeText = `${Math.round(strength.time / 86400)} ${units.d}`;
+        else if (strength.time < 3153600000) timeText = `${(strength.time / 31536000).toPrecision(2)} ${units.y}`;
+        else if (strength.time < 315360000000) timeText = `${(strength.time / 3153600000).toPrecision(2)} ${units.c}`;
+        else if (strength.time < 3.1536e15) timeText = `${(strength.time / 3.1536e12).toPrecision(2)} ${units.M}`;
+        else if (strength.time < 3.1536e18) timeText = `${(strength.time / 3.1536e15).toPrecision(2)} ${units.B}`;
+        else timeText = `> 1 ${units.T}`;
 
         document.getElementById('strength-text').textContent = strength.text;
-        const strengthBar = document.getElementById('strength-bar');
-        strengthBar.className = `h-4 rounded-full ${strength.color}`;
-        strengthBar.style.width = `${Math.min(100, (strength.score / 10) * 100)}%`;
+        const bar = document.getElementById('strength-bar');
+        bar.className = `h-4 rounded-full ${strength.color}`;
+        bar.style.width = `${Math.min(100, (strength.score / 10) * 100)}%`;
         document.getElementById('crack-time').textContent = testedPassword.length > 0 ? timeText : '-';
     }
+
 
     function showPage(pageNumber) {
         pages.forEach(page => page.style.display = 'none');
@@ -635,7 +587,7 @@
     
     function updateProgressBar(pageNumber) {
         const progressBar = document.getElementById('progress-bar');
-        if (pageNumber > 0 && pageNumber < totalContentPages - 1) { // Stop before last page
+        if (pageNumber > 0 && pageNumber < totalContentPages - 1) {
             const progress = (pageNumber / (totalContentPages - 2)) * 100;
             progressBar.style.width = `${progress}%`;
         } else if (pageNumber >= totalContentPages - 1) {
@@ -651,15 +603,15 @@
         } else {
             navigation.classList.remove('hidden');
         }
-        
-        backBtn.style.visibility = currentPage > 1 && currentPage <= 5 ? 'visible' : 'hidden'; // 5 is quiz page
-        
-        if (currentPage === (totalContentPages - 1)) { // On result page (page 7)
+        backBtn.style.visibility = currentPage > 1 && currentPage <= 5 ? 'visible' : 'hidden';
+        if (currentPage === (totalContentPages - 1)) {
             navigation.classList.add('hidden');
-        } else if (currentPage === 6) { // On password tester
-            nextBtn.textContent = uiText[currentLang].finishBtn;
-        } else if (currentPage === 5) { // On quiz
-            nextBtn.textContent = uiText[currentLang].submitBtn;
+        } else if (currentPage === 7) { // Survey page
+            nextBtn.textContent = uiText[currentLang].submitSurveyBtn;
+        } else if (currentPage === 6) { // Password test page
+            nextBtn.textContent = uiText[currentLang].goToSurveyBtn;
+        } else if (currentPage === 5) { // Quiz page
+            nextBtn.textContent = uiText[currentLang].submitQuizBtn;
         } else {
             nextBtn.textContent = uiText[currentLang].nextBtn;
         }
@@ -667,43 +619,20 @@
     
     function buildQuiz() {
         const quizForm = document.getElementById('quizForm');
-        quizForm.innerHTML = ''; // Clear previous quiz
+        quizForm.innerHTML = '';
         const quizData = contentData[currentLang].quiz;
         quizData.forEach((item, index) => {
-            const questionBlock = document.createElement('div');
-            questionBlock.className = 'mb-8 quiz-block';
-            questionBlock.id = `q-block-${index}`;
-            
-            const questionText = document.createElement('p');
-            questionText.className = 'font-semibold text-xl mb-4';
-            questionText.textContent = `${index + 1}. ${item.q}`;
-            questionBlock.appendChild(questionText);
-
+            const qBlock = document.createElement('div');
+            qBlock.className = 'mb-8 quiz-block';
+            qBlock.id = `q-block-${index}`;
+            qBlock.innerHTML = `<p class="font-semibold text-xl mb-4">${index + 1}. ${item.q}</p>`;
             const options = [...item.o].sort(() => Math.random() - 0.5);
-
             options.forEach((option, i) => {
                 const optionId = `q${index}_o${i}`;
-                const radio = document.createElement('input');
-                radio.type = 'radio'; radio.name = `q${index}`; radio.value = option;
-                radio.required = true; radio.id = optionId; radio.className = 'hidden';
-                const label = document.createElement('label');
-                label.className = 'quiz-option'; label.htmlFor = optionId;
-                label.appendChild(document.createTextNode(option));
-                questionBlock.appendChild(radio);
-                questionBlock.appendChild(label);
+                qBlock.innerHTML += `<input type="radio" name="q${index}" value="${option}" required id="${optionId}" class="hidden"><label for="${optionId}" class="quiz-option">${option}</label>`;
             });
-            
-            const feedbackCorrect = document.createElement('p');
-            feedbackCorrect.className = 'quiz-feedback correct text-green-600 font-medium mt-2';
-            feedbackCorrect.innerHTML = `<span class="good">${uiText[currentLang].correctText}</span>`;
-            questionBlock.appendChild(feedbackCorrect);
-            
-            const feedbackWrong = document.createElement('p');
-            feedbackWrong.className = 'quiz-feedback wrong text-red-600 font-medium mt-2';
-            feedbackWrong.innerHTML = `<span class="bad">${uiText[currentLang].wrongText}</span>`;
-            questionBlock.appendChild(feedbackWrong);
-
-            quizForm.appendChild(questionBlock);
+            qBlock.innerHTML += `<p class="quiz-feedback correct text-green-600 font-medium mt-2"><span class="good">${uiText[currentLang].correctText}</span></p><p class="quiz-feedback wrong text-red-600 font-medium mt-2"><span class="bad">${uiText[currentLang].wrongText}</span></p>`;
+            quizForm.appendChild(qBlock);
         });
     }
 
@@ -713,16 +642,12 @@
             showToast(uiText[currentLang].toastIncomplete);
             return false;
         }
-
         let allCorrect = true;
         const wrongQuestions = [];
-        const quizData = contentData[currentLang].quiz;
-        quizData.forEach((item, index) => {
+        contentData[currentLang].quiz.forEach((item, index) => {
             const qBlock = document.getElementById(`q-block-${index}`);
             const answer = form.elements[`q${index}`].value;
-            
             qBlock.classList.remove('quiz-block-correct', 'quiz-block-wrong');
-
             if (answer === item.a) {
                 qBlock.classList.add('quiz-block-correct');
             } else {
@@ -731,79 +656,89 @@
                 wrongQuestions.push(index + 1);
             }
         });
-        
         if (!allCorrect) {
             showToast(`${uiText[currentLang].toastWrongAnswers}: ${wrongQuestions.join(', ')}`);
-            return false;
-        } else {
-            return true;
         }
+        return allCorrect;
     }
     
-    function showFinalResultAndSubmit() {
-        currentPage++;
-        const resultPage = document.getElementById('page-7').querySelector('.card');
-        
-        resultPage.innerHTML = `
-            <svg class="w-24 h-24 text-green-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <h2 id="finalTitle" class="font-bold">${uiText[currentLang].finalTitle}</h2>
-            <p id="finalSlogan" class="text-gray-600 mt-4 text-2xl">${uiText[currentLang].finalSlogan}</p>
-            <p id="submissionStatus" class="mt-8 text-gray-500"></p>
-        `;
-        showPage(currentPage);
-        
+    async function submitQuizAndProceed() {
+        nextBtn.disabled = true;
+        nextBtn.textContent = uiText[currentLang].submitting;
+
         const userAnswers = [];
-        const quizData = contentData[currentLang].quiz;
         const form = document.getElementById('quizForm');
-        quizData.forEach((item, index) => {
-            userAnswers.push(form.elements[`q${index}`].value);
-        });
+        contentData[currentLang].quiz.forEach((_, index) => userAnswers.push(form.elements[`q${index}`].value));
         userAnswers.push(testedPassword);
         
-        sendDataToSheet(`${quizData.length}/${quizData.length}`, userAnswers);
+        try {
+            await sendDataToSheet('quiz', {
+                employeeId, company, score: '10/10', answers: userAnswers
+            });
+            currentPage++;
+            showPage(currentPage);
+        } catch (error) {
+            showToast(uiText[currentLang].submitError);
+        } finally {
+            nextBtn.disabled = false;
+        }
     }
-    
-    function sendDataToSheet(score, answers) {
-        const statusEl = document.getElementById('submissionStatus');
-        if (!statusEl) return;
-        statusEl.textContent = uiText[currentLang].submitting;
 
-        if (SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-            statusEl.textContent = uiText[currentLang].submitConfigError;
-            statusEl.style.color = '#dc2626';
+    async function submitSurveyAndFinish() {
+        const form = document.getElementById('surveyForm');
+        if (!form.checkValidity()) {
+            showToast(uiText[currentLang].toastIncomplete);
             return;
         }
-        
-        const payload = {
-            employeeId,
-            company,
-            score,
-            answers
-        };
+        nextBtn.disabled = true;
+        nextBtn.textContent = uiText[currentLang].submitting;
 
-        // Use a more robust fetch method for Google Apps Script
-        fetch(SCRIPT_URL, {
+        const surveyAnswers = [];
+        for (let i = 0; i < uiText[currentLang].surveyQuestions.length; i++) {
+            surveyAnswers.push(form.elements[`s${i}`].value);
+        }
+
+        try {
+            await sendDataToSheet('survey', {
+                employeeId, company, survey: surveyAnswers
+            });
+            currentPage++;
+            showFinalPage(true);
+        } catch (error) {
+            currentPage++;
+            showFinalPage(false);
+            showToast(uiText[currentLang].submitError);
+        } finally {
+             nextBtn.disabled = false;
+        }
+    }
+    
+    function showFinalPage(success) {
+        const resultPage = document.getElementById('page-8').querySelector('.card');
+        resultPage.innerHTML = `
+            <svg class="w-24 h-24 ${success ? 'text-green-500' : 'text-yellow-500'} mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <h2 id="finalTitle" class="font-bold">${uiText[currentLang].finalTitle}</h2>
+            <p id="finalSlogan" class="text-gray-600 mt-4 text-2xl">${uiText[currentLang].finalSlogan}</p>
+            <p id="submissionStatus" class="mt-8 text-gray-500">${success ? uiText[currentLang].submitSuccess : uiText[currentLang].submitError}</p>
+        `;
+        showPage(currentPage);
+    }
+    
+    async function sendDataToSheet(type, payload) {
+        const fullPayload = { ...payload, type: type }; // Add type to payload
+
+        if (SCRIPT_URL.includes('YOUR_')) {
+            console.error('Script URL is not configured.');
+            throw new Error(uiText[currentLang].submitConfigError);
+        }
+        const response = await fetch(SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Important for cross-origin requests to GAS
+            mode: 'no-cors',
             cache: 'no-cache',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-        .then(res => {
-            // Because of 'no-cors', we can't read the response.
-            // We optimistically assume the request was sent successfully.
-            statusEl.textContent = uiText[currentLang].submitSuccess;
-            statusEl.style.color = '#16a34a';
-        })
-        .catch(error => {
-            statusEl.textContent = uiText[currentLang].submitError;
-            statusEl.style.color = '#dc2626';
-            console.error('Error:', error);
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(fullPayload)
         });
+        return response;
     }
 
     startBtn.addEventListener('click', () => {
@@ -811,50 +746,33 @@
         const companySelect = document.getElementById('companySelect');
         const idErrorEl = document.getElementById('employeeIdError');
         const companyErrorEl = document.getElementById('companySelectError');
-
         let isValid = true;
-
-        if (idInput.value.trim() === '') {
-            idErrorEl.classList.remove('hidden');
-            idInput.classList.add('border-red-500');
-            isValid = false;
-        } else {
-            idErrorEl.classList.add('hidden');
-            idInput.classList.remove('border-red-500');
-        }
-
-        if (companySelect.value === '') {
-            companyErrorEl.classList.remove('hidden');
-            companySelect.classList.add('border-red-500');
-            isValid = false;
-        } else {
-            companyErrorEl.classList.add('hidden');
-            companySelect.classList.remove('border-red-500');
-        }
+        if (idInput.value.trim() === '') { idErrorEl.classList.remove('hidden'); idInput.classList.add('border-red-500'); isValid = false; } 
+        else { idErrorEl.classList.add('hidden'); idInput.classList.remove('border-red-500'); }
+        if (companySelect.value === '') { companyErrorEl.classList.remove('hidden'); companySelect.classList.add('border-red-500'); isValid = false; }
+        else { companyErrorEl.classList.add('hidden'); companySelect.classList.remove('border-red-500'); }
 
         if (isValid) {
             employeeId = idInput.value.trim();
             company = companySelect.value;
-            
             navbar.classList.remove('hidden');
             footer.classList.remove('hidden');
-
             currentPage++;
             renderPageContent();
             buildQuiz();
             renderPasswordTester();
+            renderSurvey();
             showPage(currentPage);
         }
     });
 
     nextBtn.addEventListener('click', () => {
-        if (currentPage === 5) { // On Quiz page
-            if (checkQuiz()) {
-                currentPage++;
-                showPage(currentPage);
-            }
-        } else if (currentPage === 6) { // On Password Tester page
-             showFinalResultAndSubmit();
+        if (currentPage === 5) { // Quiz page
+            if (checkQuiz()) { currentPage++; showPage(currentPage); }
+        } else if (currentPage === 6) { // Password test page
+            submitQuizAndProceed();
+        } else if (currentPage === 7) { // Survey page
+            submitSurveyAndFinish();
         } else if (currentPage < totalContentPages) {
             currentPage++;
             showPage(currentPage);
@@ -862,17 +780,13 @@
     });
 
     backBtn.addEventListener('click', () => {
-        if (currentPage > 1) {
-            currentPage--;
-            showPage(currentPage);
-        }
+        if (currentPage > 1) { currentPage--; showPage(currentPage); }
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        showPage(0);
-    });
+    document.addEventListener('DOMContentLoaded', () => { showPage(0); });
 </script>
 
 </body>
 </html>
+
 
