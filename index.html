@@ -114,14 +114,27 @@
             transform: translate(-50%, 0);
             opacity: 1;
         }
+        .nav-link {
+            @apply text-blue-100 hover:text-white transition-colors duration-200 font-medium;
+        }
     </style>
 </head>
 <body class="flex items-center justify-center min-h-screen p-4">
 
     <div class="container mx-auto max-w-4xl w-full">
         
-        <header id="navbar" class="hidden bg-[var(--komatsu-blue)] text-white px-4 pt-4 pb-6 rounded-t-xl shadow-lg relative z-10">
-            <h1 class="text-xl font-bold text-center sm:text-left">Cybersecurity E‑Learning</h1>
+        <header id="navbar" class="hidden bg-[#003366] text-white sticky top-0 z-50 shadow-md rounded-t-xl">
+            <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center">
+                        <img src="https://logodix.com/logo/951870.jpg" alt="Komatsu Logo" class="h-9">
+                    </div>
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="PhishingMailElearning.html" target="_blank" rel="noopener noreferrer" class="nav-link" id="nav_phishing">Phishing Mail</a>
+                        <a href="https://bangkokkomatsu24-debug.github.io/portalcyber/" class="nav-link font-bold text-white" id="nav_cybersecurity">CyberSecurity</a>
+                    </div>
+                </div>
+            </nav>
             <div id="global-progress-container" class="absolute bottom-0 left-0 w-full h-1.5">
                 <div class="w-full h-full bg-white/20">
                     <div id="progress-bar" class="h-full bg-white" style="width: 0%; transition: width 0.5s ease-in-out;"></div>
@@ -132,7 +145,7 @@
         <main id="elearning-container">
 
             <div id="page-0" class="page text-center"><div class="card">
-                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyBzPqeEpBv32g7FuA4vBEaTR1F-alfIJCCQ&s" alt="Komatsu logo" style="display: block; margin: 0 auto;">
+                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Komatsu_company_logos.svg/640px-Komatsu_company_logos.svg.png" alt="Komatsu Logo" class="h-12 mx-auto mb-8">
                     <h1 id="mainTitle" class="font-bold mt-4 mb-2">Cybersecurity E-Learning for Komatsu Thailand Group</h1>
                     <p id="mainSubtitle" class="text-gray-600 mb-8">หลักสูตรความปลอดภัยไซเบอร์สำหรับพนักงาน Komatsu Thailand Group</p>
                 <div id="language-selection">
@@ -238,6 +251,8 @@
             passwordCheckLabel: "พิมพ์รหัสผ่านของคุณที่นี่ (การพิมพ์จะถูกซ่อน)",
             passwordStrength: "ความแข็งแกร่ง:",
             timeToCrack: "เวลาที่ใช้ในการเจาะรหัสผ่าน (โดยประมาณ):",
+            nav_phishing: "หลักสูตรฟิชชิ่งเมล",
+            nav_cybersecurity: "หลักสูตรความปลอดภัยทางไซเบอร์",
             criteria: {
                 length: "ความยาวอย่างน้อย 10 ตัวอักษร",
                 lowercase: "มีตัวอักษรพิมพ์เล็ก (a-z)",
@@ -286,6 +301,8 @@
             passwordCheckLabel: "Type your password here (typing will be hidden)",
             passwordStrength: "Strength:",
             timeToCrack: "Estimated time to crack:",
+            nav_phishing: "Phishing Mail Course",
+            nav_cybersecurity: "CyberSecurity Course",
             criteria: {
                 length: "At least 10 characters long",
                 lowercase: "Contains a lowercase letter (a-z)",
@@ -787,5 +804,3 @@
 
 </body>
 </html>
-
-
